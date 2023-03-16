@@ -3,7 +3,6 @@ import Button from "react-bootstrap/Button"
 import Stack from "react-bootstrap/Stack"
 import "./Home.css"
 import axios from 'axios';
-import { toast } from 'react-toastify';
 
 
 
@@ -24,12 +23,12 @@ const Home = () => {
         }))
 
     }
-    const addDetails = () => {
+    const sendOneMail = () => {
         const { name, number, email } = user
         if (name && number && email) {
             axios.post("http://localhost:5000/sendmail", user)
                 .then(res => console.log(res))
-            toast.success("sent Successfully");
+                
         }
         else {
             alert("invalid input")
@@ -42,6 +41,7 @@ const Home = () => {
     const loadData = async () => {
         const responce = await axios.get("http://localhost:5000/get");
         setData(responce.data);
+       
 
     };
 
@@ -49,7 +49,13 @@ const Home = () => {
         loadData()
     }, []);
 
+    //================================Sendtoall mails=================================================
+    const sendMailToAll = () => {
+        axios.post("http://localhost:5000/sendMailToAll")
+            .then(res => console.log(res))
+            setTimeout(() => loadData(), 500)
 
+    }
 
     return (
         <div>
@@ -187,7 +193,7 @@ const Home = () => {
                                 </form>
                             </div>
                             <div className="modal-footer">
-                                <button type="button" className="btn btn-primary" onClick={addDetails}>Add Mail</button>
+                                <button type="button" className="btn btn-primary" onClick={sendOneMail}>Add Mail</button>
                             </div>
                         </div>
                     </div>
@@ -205,7 +211,9 @@ const Home = () => {
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">cancel</button>
-                            <button type="button" className="btn btn-primary">Start Now</button>
+                            <button type="button" className="btn btn-primary" onClick={sendMailToAll} > <div>
+                                Start Now
+                            </div></button>
                         </div>
                     </div>
                 </div>
