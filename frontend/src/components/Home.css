@@ -15,3 +15,12 @@ h1{
     padding-left: 500px ;
     padding-right: 100px;
 }
+
+.modal-footer{
+    justify-content: center;
+    
+}
+
+.send-mail-text{
+    text-align: center;
+}
