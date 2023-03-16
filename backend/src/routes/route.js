@@ -1,10 +1,12 @@
 const express = require("express");
-const { sendMail } = require("../controllers/sendMail");
+const { sendMail,addDetails,getDetails } = require("../controllers/sendMail");
 const router = express();
-// const db = require("../models/")
+
 
 
 router.post("/sendmail", sendMail)
+
+router.get("/get", getDetails)
 
 
 

@@ -1,4 +1,4 @@
-
+const clientModel = require("../models/clentModel")
 const nodemailer = require('nodemailer');
 require('dotenv').config();
 const Mailgen = require('mailgen');
@@ -6,7 +6,8 @@ const Mailgen = require('mailgen');
 
 const sendMail = async (req, res) => {
     try {
-        const { name,userEmail } = req.body;
+        const { name, email } = req.body;
+        // console.log(req.body)
         let testAccount = await nodemailer.createTestAccount();
 
         let transporter = nodemailer.createTransport({
@@ -21,15 +22,15 @@ const sendMail = async (req, res) => {
 
         let MailGenerator = new Mailgen({
             theme: "default",
-            product : {
+            product: {
                 name: "Mechodal",
-                link : 'https://mailgen.js/'
+                link: 'https://mailgen.js/'
             }
         })
 
         let response = {
             body: {
-                name :name ,
+                name: name,
                 intro: "You are shortlisted !",
                 outro: "Looking forward for your responce"
             }
@@ -39,7 +40,7 @@ const sendMail = async (req, res) => {
 
         let message = {
             from: process.env.EMAIL, // sender address
-            to: userEmail, // list of receivers
+            to: email, // list of receivers
             subject: 'hello omprakash dhanukar this test mail send by om', // Subject line
             text: 'This is a test email',// plain text body
             html: mail
@@ -54,7 +55,7 @@ const sendMail = async (req, res) => {
                     preview: nodemailer.getTestMessageUrl(info)
                 })
         })
-
+        await clientModel.create(req.body)
 
     } catch (error) {
         return res.status(400).send({ status: false, message: error.message });
@@ -62,4 +63,17 @@ const sendMail = async (req, res) => {
     }
 }
 
-module.exports = { sendMail }
+
+const getDetails = async (req, res) => {
+    try {
+
+        let get = await clientModel.find()         // distructered bcoz we will put more than 1 key in queryParams  
+        return res.status(200).send(get)
+
+    } catch (error) {
+        return res.status(400).send({ status: false, message: error.message });
+
+    }
+}
+
+module.exports = { sendMail, getDetails }
