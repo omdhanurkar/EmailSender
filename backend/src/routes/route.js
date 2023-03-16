@@ -1,10 +1,13 @@
 const express = require("express");
-const { sendMail,addDetails,getDetails } = require("../controllers/sendMail");
+const { sendMail, getDetails, sendMailToAll } = require("../controllers/sendMail");
 const router = express();
 
 
 
 router.post("/sendmail", sendMail)
+
+router.post("/sendMailToAll", sendMailToAll)
+
 
 router.get("/get", getDetails)
 
