@@ -1,4 +1,4 @@
-const clientModel = require("../models/clentModel")
+const clientModel = require("../models/clientModel")
 const nodemailer = require('nodemailer');
 require('dotenv').config();
 const Mailgen = require('mailgen');
@@ -30,7 +30,7 @@ const sendMail = async (req, res) => {
 
         let response = {
             body: {
-                name: name,
+                // name: name,
                 intro: "You are shortlisted !",
                 outro: "Looking forward for your responce"
             }
@@ -141,4 +141,15 @@ const sendMailToAll = async (req, res) => {
         return res.status(400).send({ status: false, message: error.message });
     }
 }
-module.exports = { sendMail, getDetails, sendMailToAll }
+
+const importUser = async (req, res) => {
+    try {
+        return res.status(200).send({ status: true, message: "run" });
+
+    } catch (error) {
+        return res.status(400).send({ status: false, message: error.message });
+
+    }
+}
+
+module.exports = { sendMail, getDetails, sendMailToAll, importUser }

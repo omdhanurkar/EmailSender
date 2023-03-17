@@ -5,8 +5,11 @@ const app = express();
 const mongoose = require("mongoose")
 require('dotenv').config();
 
+
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }))
 app.use(cors());
+
 
 mongoose.connect("mongodb://localhost:27017/sendEmails", {
     useNewUrlParser: true,
@@ -16,8 +19,8 @@ mongoose.connect("mongodb://localhost:27017/sendEmails", {
     .then(() => console.log("MongoDB is connected"))
     .catch(err => console.log(err.message))
 
-app.use('/',route)
+app.use('/', route)
 
-app.listen(5000,  ()=> {
+app.listen(5000, () => {
     console.log('Express app running on port ' + 5000)
 });
